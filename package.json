@@ -1,0 +1,23 @@
+{
+  "name": "slideyslider",
+  "version": "1.0.0",
+  "description": "A basic d3 slider component",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benfred/SlideySlider.git"
+  },
+  "author": "Ben Frederickson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benfred/SlideySlider/issues"
+  },
+  "homepage": "https://github.com/benfred/SlideySlider#readme",
+  "devDependencies": {
+    "typescript": "^2.7.2"
+  }
+}
