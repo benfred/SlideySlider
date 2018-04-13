@@ -5,8 +5,10 @@ declare var d3: any;
 export default class Slider {
     private handle: any;
     private scale: any;
+    private sliderDiv: any;
+    private margin: {left: number, right: number};
 
-    constructor(element: HTMLElement,
+    constructor(public element: HTMLElement,
                 name: string,
                 public callback: (value: number) => void,
                 {scale = d3.scaleLinear(),
@@ -100,6 +102,9 @@ export default class Slider {
             .style("stroke-opacity", 0.5)
             .style("stroke-width", "1.25px");
         this.scale = scale;
+        this.sliderDiv = sliderDiv;
+        this.margin = margin;
+        window.addEventListener("resize", () => this.resize());
     }
 
     public move(value: number): void {
@@ -109,6 +114,26 @@ export default class Slider {
     public change(value: number): void {
         this.handle.attr("cx", this.scale(value));
         this.callback(value);
+    }
+
+    public resize(width = 0): void {
+        let previousValue = this.scale.invert(this.handle.attr("cx"));
+        if (width === 0) {
+            width = this.sliderDiv.offsetWidth;
+        }
+
+        const div = d3.select(this.sliderDiv);
+        const svg = div.select("svg")
+            .attr("width", width);
+        this.scale
+            .range([0, width - this.margin.left - this.margin.right]);
+
+        svg.selectAll("line")
+            .attr("x1", this.scale.range()[0])
+            .attr("x2", this.scale.range()[1])
+        svg.selectAll("text")
+            .attr("x", this.scale);
+        this.move(previousValue);
     }
 }
 
